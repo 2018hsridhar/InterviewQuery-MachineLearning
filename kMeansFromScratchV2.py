@@ -28,7 +28,6 @@ def l2Norm(point,centroid):
 
 # The very number of centroids can also decrease too ( 0 points were assigned gaah ) 
 def k_means_clustering(data_points, k, initial_centroids):
-    iteration = 0
     while(True):
         # number of iterations / training
         n = len(data_points)        #-of rows
@@ -59,20 +58,22 @@ def k_means_clustering(data_points, k, initial_centroids):
             numPointsNextCentroids[centroidIdx] += 1
         # bug : if no points are assigned -> please chuck out that centroid ( clearly was an outlier )
         actualNextCentroids = []
-        for idx in range(k):
+        for idx in range(len(initial_centroids)):
             numPointsAssigned = numPointsNextCentroids[idx]
             if(numPointsAssigned >= 1):
                 futureCentroid = nextCentroids[idx] / numPointsAssigned
                 actualNextCentroids.append(futureCentroid)
-        error = 0
+            else:
+                actualNextCentroids.append([])
+        initNextCentroidError = 0
+        againCentroid = []
         for i in range(len(initial_centroids)):
-            numPointsAssigned = numPointsNextCentroids[idx]
-            if(numPointsAssigned >= 1):
-                delta = l2Norm(nextCentroids[i], initial_centroids[i])
-                error += delta
-        converged = (error == 0)
+            actualNextCentroidsVal = actualNextCentroids[i]
+            if(len(actualNextCentroidsVal) > 0):
+                againCentroid.append(actualNextCentroidsVal)
+                initNextCentroidError += l2Norm(actualNextCentroids[i], initial_centroids[i])
+        converged = (initNextCentroidError == 0)
         if(converged):
             return assignedCentroid
-        initial_centroids = actualNextCentroids
-        iteration += 1
+        initial_centroids = againCentroid
     return assignedCentroid
