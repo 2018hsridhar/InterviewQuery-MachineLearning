@@ -1,4 +1,10 @@
 '''
+
+Slightly more disgusting code, but at least we now have a correct error number hit when the centroids between two successive iteration steps - i1,i2 - have a delta of zero ( that is, the points did not shift in their positioning ).
+
+Note : the selection of initial centroid values will matter substantially for the convergence of k-means clustering
+
+
 Unsupervised Learning
 
 URL := https://www.interviewquery.com/questions/k-means-from-scratch
